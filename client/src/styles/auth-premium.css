@@ -1,0 +1,280 @@
+/* 🌟 GLOBAL AUTH BACKGROUND */
+.auth-page-container {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--bg-primary);
+    /* Fallback/Base */
+    position: relative;
+    overflow: hidden;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    transition: background 0.3s ease;
+}
+
+/* 🎨 SUBTLE MOVING BACKGROUND BLOBS */
+.auth-page-container::before,
+.auth-page-container::after {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: linear-gradient(180deg, #a78bfa 0%, #818cf8 100%);
+    filter: blur(80px);
+    opacity: 0.15;
+    border-radius: 50%;
+    z-index: 0;
+    animation: blob-bounce 10s infinite alternate ease-in-out;
+}
+
+.auth-page-container::before {
+    top: -100px;
+    left: -100px;
+}
+
+.auth-page-container::after {
+    bottom: -100px;
+    right: -100px;
+    background: linear-gradient(180deg, #f472b6 0%, #fb7185 100%);
+    animation-delay: -5s;
+}
+
+@keyframes blob-bounce {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    100% {
+        transform: translate(30px, 30px) scale(1.1);
+    }
+}
+
+/* 🧊 GLASSMORPHISM CARD (Shared) */
+.premium-auth-box {
+    background: var(--bg-secondary);
+    /* Handles both light/dark card bg */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
+    border-radius: 24px;
+    padding: 40px;
+    width: 100%;
+    max-width: 420px;
+    z-index: 10;
+    position: relative;
+    animation: slide-up-fade 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slide-up-fade {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ✏️ TYPOGRAPHY */
+.premium-auth-box h2 {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text-primary);
+    text-align: center;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+.premium-auth-box p.subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+    font-size: 15px;
+}
+
+/* 📥 INPUT FIELDS */
+.input-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.premium-input {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 15px;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--bg-tertiary);
+    transition: all 0.2s ease;
+    outline: none;
+    color: var(--text-primary);
+}
+
+.premium-input:focus {
+    border-color: #6366f1;
+    /* Indigo focus */
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.premium-input::placeholder {
+    color: var(--text-muted);
+}
+
+/* 🔘 BUTTONS */
+.premium-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
+    margin-top: 10px;
+}
+
+.premium-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
+}
+
+.premium-btn:active {
+    transform: translateY(0);
+}
+
+/* 🔗 LINKS */
+.auth-footer {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.auth-footer a {
+    color: #4f46e5;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+    color: #4338ca;
+}
+
+/* ⚠️ ERROR MESSAGE */
+.error-message {
+    background: rgba(254, 242, 242, 0.8);
+    border: 1px solid #fee2e2;
+    color: #991b1b;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 20px;
+    animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+/* -------------------------------------------
+   SPLIT LAYOUT FOR REGISTER PAGE 
+------------------------------------------- */
+.split-layout {
+    display: flex;
+    width: 100%;
+    max-width: 1000px;
+    height: 600px;
+    background: var(--bg-secondary);
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: var(--shadow-xl, 0 25px 80px rgba(0, 0, 0, 0.12));
+    animation: slide-up-fade 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 10;
+}
+
+.split-left {
+    flex: 1;
+    background: url("../assets/image.png");
+    background-size: cover;
+    background-position: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px;
+    position: relative;
+    overflow: hidden;
+}
+
+.split-left h1 {
+    font-size: 48px;
+    line-height: 1.1;
+    font-weight: 800;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+    color: white;
+    /* Always white on gradient */
+}
+
+.split-left p {
+    opacity: 0.9;
+    font-size: 18px;
+    position: relative;
+    z-index: 2;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.split-right {
+    flex: 1.2;
+    padding: 50px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: var(--bg-secondary);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .split-layout {
+        flex-direction: column;
+        height: auto;
+        margin: 20px;
+    }
+
+    .split-left {
+        padding: 40px;
+        text-align: center;
+    }
+
+    .split-left h1 {
+        font-size: 32px;
+    }
+
+    .split-right {
+        padding: 30px;
+    }
+}

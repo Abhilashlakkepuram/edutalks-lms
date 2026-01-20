@@ -1,0 +1,9 @@
+--- Email Diagnostic Start ---
+🔍 Checking Email Configuration...
+📧 User: abhilash.lakkepuram369@gmail.com
+🔑 Pass (raw): 'rmldlevurfdyujfx'
+🔑 Pass (length): 16 characters
+🧹 Cleaned Pass (length): 16 characters
+✅ Password length is correct (16 characters).
+📡 Attempting to connect to Gmail...
+✅ SUCCESS! Your credentials are correct.

@@ -1,0 +1,288 @@
+.admin-page {
+    padding: 40px 20px;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* DASHBOARD WELCOME */
+.dashboard-welcome {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    color: white;
+    padding: 32px;
+    border-radius: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-content h2 {
+    font-size: 24px;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: white;
+}
+
+.welcome-content p {
+    color: #e0e7ff;
+    font-size: 16px;
+}
+
+.welcome-date {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+@media (max-width: 600px) {
+    .dashboard-welcome {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+}
+
+.dashboard-page-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 25px;
+}
+
+/* STATS GRID */
+.admin-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background: var(--bg-secondary);
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-label {
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* TABLE SECTION */
+.section-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-primary);
+}
+
+.table-container {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th {
+    background: var(--bg-tertiary);
+    padding: 16px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.data-table td {
+    padding: 16px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.data-table tr:last-child td {
+    border-bottom: none;
+}
+
+.data-table tr:hover {
+    background: var(--bg-tertiary);
+    /* Very light pink/brand tint */
+}
+
+/* INPUTS IN TABLE */
+.table-input {
+    width: 80px;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 14px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+.table-input:focus {
+    border-color: var(--accent);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 61, 106, 0.1);
+}
+
+/* ACTION BUTTONS */
+.delete-btn {
+    background: rgba(239, 68, 68, 0.1);
+    /* Red tint */
+    color: #ef4444;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 12px;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+}
+
+.delete-btn:hover {
+    background: rgba(239, 68, 68, 0.2);
+}
+
+.loading-spinner {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-secondary);
+    font-size: 16px;
+}
+
+/* AVATARS */
+.avatar-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.avatar-red {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+.avatar-blue {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+}
+
+.avatar-indigo {
+    background: rgba(79, 70, 229, 0.1);
+    color: #4f46e5;
+}
+
+/* ROLE BADGES */
+.role-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.role-admin {
+    background: rgba(236, 72, 153, 0.1);
+    color: #ec4899;
+}
+
+.role-instructor {
+    background: rgba(168, 85, 247, 0.1);
+    color: #a855f7;
+}
+
+.role-student {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+}
+
+/* STATUS TEXT */
+.status-text {
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.status-verified {
+    color: #10b981;
+}
+
+.status-pending {
+    color: #f59e0b;
+}
+
+/* ACTIVE STAT CARDS (Borders) */
+.stat-card {
+    transition: all 0.2s ease;
+}
+
+.stat-card.active-users.active-card {
+    border: 2px solid #6366f1;
+}
+
+.stat-card.active-students.active-card {
+    border: 2px solid #3b82f6;
+}
+
+.stat-card.active-instructors.active-card {
+    border: 2px solid #a855f7;
+}
+
+.stat-card.active-courses.active-card {
+    border: 2px solid #ec4899;
+}
+
+/* TEXT COLORS FOR STATS */
+.text-blue {
+    color: #3b82f6;
+}
+
+.text-purple {
+    color: #a855f7;
+}
+
+.text-pink {
+    color: #ec4899;
+}
+
+.user-name-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

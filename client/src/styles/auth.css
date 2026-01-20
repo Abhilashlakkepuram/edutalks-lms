@@ -1,0 +1,49 @@
+/* Page center layout */
+.auth-page {
+  min-height: calc(100vh - 60px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Auth card */
+.auth-box {
+  width: 360px;
+  background: var(--bg-secondary);
+  padding: 28px;
+  border-radius: 10px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
+}
+
+.auth-box h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--text-primary);
+}
+
+/* Form layout */
+.auth-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Error message */
+.error {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  text-align: center;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Info text */
+.info {
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: 12px;
+}

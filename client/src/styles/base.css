@@ -1,0 +1,222 @@
+/* Base layout and variables */
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  /* Light Theme (Default) */
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f1f5f9;
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --text-inverse: #ffffff;
+
+  --border-color: #e2e8f0;
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  --accent: #ff3d6a;
+  --accent-hover: #e0355c;
+  --brand-gradient: linear-gradient(135deg, #ff3d6a 0%, #ff6b8b 100%);
+
+  --overlay-bg: rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] {
+  /* Dark Theme */
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-inverse: #ffffff;
+
+  --border-color: #334155;
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+
+  --overlay-bg: rgba(0, 0, 0, 0.7);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  padding-top: 64px;
+}
+
+/* Content area below navbar that centers pages */
+.content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Common buttons */
+button {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Back Button */
+.back-btn {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  margin-bottom: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  width: fit-content;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.back-btn:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--text-muted);
+}
+
+/* Inputs */
+input,
+select,
+textarea {
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0
+}
+
+/* Hide arrows/spinners in number inputs */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+/* COURSE DETAIL PAGE */
+.course-detail-img {
+  width: 100%;
+  max-width: 600px;
+  /* Constrain width */
+  max-height: 200px;
+  /* Constrain height */
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-md);
+  display: block;
+}
+
+/* PUBLIC LESSON LIST (Course Detail) */
+.lesson-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lesson-item-public {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.lesson-item-public:hover {
+  transform: translateX(5px);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-sm);
+}
+
+.lesson-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.lesson-number {
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.lesson-title {
+  font-weight: 500;
+  color: var(--text-primary);
+  font-size: 15px;
+}
+
+.lock-icon {
+  font-size: 14px;
+  opacity: 0.6;
+}
