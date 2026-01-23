@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate, useLocation } from "react-router-dom";
 import { loginUser } from "../../services/authService";
 import "../../styles/auth-premium.css";
 import { Link } from "react-router-dom";
 
 const Login = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -50,12 +52,10 @@ const Login = () => {
     <div className="auth-page-container">
       <div className="split-layout">
         {/* LEFT PANEL */}
-
-
-
+        {/* RIGHT PANEL */}
         <div className="split-right">
-          <h2>Sign In</h2>
-          <p className="subtitle" style={{ textAlign: "left", marginBottom: "30px" }}>Please enter your details.</p>
+          <h2>{t('signIn')}</h2>
+          <p className="subtitle" style={{ textAlign: "left", marginBottom: "30px" }}>{t('enterDetails')}</p>
 
           {error && <div className="error-message">{error}</div>}
 
@@ -63,7 +63,7 @@ const Login = () => {
             <div className="input-group" style={{ marginBottom: "0" }}>
               <input
                 className="premium-input"
-                placeholder="Email Address"
+                placeholder={t('email')}
                 type="email"
                 onChange={(e) =>
                   setForm({ ...form, email: e.target.value })
@@ -77,7 +77,7 @@ const Login = () => {
                 <input
                   className="premium-input"
                   type={showPassword ? "text" : "password"}
-                  placeholder="Password"
+                  placeholder={t('password')}
                   onChange={(e) =>
                     setForm({ ...form, password: e.target.value })
                   }
@@ -110,20 +110,20 @@ const Login = () => {
 
             <div style={{ textAlign: "right", margin: "-10px 0 20px" }}>
               <Link to="/forgot-password" style={{ color: "#4f46e5", fontSize: "0.9rem", textDecoration: "none" }}>
-                Forgot Password?
+                {t('forgotPassword')}
               </Link>
             </div>
 
-            <button className="premium-btn">Sign In</button>
+            <button className="premium-btn">{t('signIn')}</button>
           </form>
 
           <div className="auth-footer" style={{ textAlign: "left", marginTop: "30px" }}>
-            Don't have an account? <Link to="/register">Create account</Link>
+            {t('noAccount')} <Link to="/register">{t('createAccount')}</Link>
           </div>
         </div>
-        {/* RIGHT PANEL */}
+        {/* LEFT PANEL (Previously RIGHT PANEL in layout depending on CSS but structurally here) */}
         <div className="split-left">
-          <h1 style={{ color: "#333" }}>Welcome<br /><span style={{ color: "red" }}>Back!</span></h1>
+          <h1 style={{ color: "#333" }}>{t('welcome')}<br /><span style={{ color: "red" }}>{t('welcomeBack').split(' ')[1] || 'Back'}!</span></h1>
           <p style={{ color: "#333", fontWeight: "bold" }}>Login to continue your learning journey.</p>
         </div>
       </div>

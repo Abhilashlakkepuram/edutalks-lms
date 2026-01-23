@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import "../../styles/instructor.css";
 import { getUser, getToken } from "../../utils/auth";
 import { useEffect, useState } from "react";
 
 const InstructorDashboard = () => {
+  const { t } = useTranslation();
   const [user, setUser] = useState(null);
   const [stats, setStats] = useState({
     courses: 0,
@@ -39,10 +41,12 @@ const InstructorDashboard = () => {
   return (
     <div className="instructor-page">
       <div className="dashboard-wrapper">
-        <h1 className="dashboard-page-title">👨‍🏫 Instructor Dashboard</h1>
+        <h1 className="dashboard-page-title">👨‍🏫 {t('dashboard')}</h1>
         <div className="dashboard-welcome">
           <div className="welcome-content">
-            <h2>Welcome back, {user?.firstName}! 👋</h2>
+            <h2>
+              {t('welcomeBack')}, {user?.firstName}! 👋
+            </h2>
             <p>Here is what’s happening with your courses today.</p>
           </div>
           <div className="welcome-date">
@@ -74,8 +78,15 @@ const InstructorDashboard = () => {
             + Create Course
           </Link>
 
-          <Link to="/instructor/my-courses" className="secondary-btn">
+          <Link to="/instructor/my-courses" className="primary-btn">
             View My Courses
+          </Link>
+
+          <Link to="/instructor/students" className="primary-btn">
+            View Students
+          </Link>
+          <Link to="/instructor/create-exam" className="primary-btn">
+            Create Exam
           </Link>
         </div>
       </div>

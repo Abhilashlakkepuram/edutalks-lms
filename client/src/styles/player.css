@@ -66,6 +66,14 @@
     flex-direction: column;
     /* To handle title and iframe */
     padding: 20px;
+    position: relative;
+    /* For overlays if needed */
+}
+
+.video-section h2 {
+    color: white;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 .video-section iframe {
@@ -73,6 +81,8 @@
     height: 100%;
     max-width: 900px;
     aspect-ratio: 16/9;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .no-video {
@@ -104,7 +114,172 @@
     }
 
     .video-section {
-        height: 300px;
+        height: auto;
+        min-height: 400px;
         order: 1;
+
     }
+}
+
+/* ============================= */
+/* 🎮 Player Action Area */
+/* ============================= */
+
+.completion-container {
+    height: 90%;
+    padding: 50px;
+    padding-top: 100px;
+    border-radius: 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    text-align: center;
+    animation: fadeInUp 0.4s ease;
+    width: 100%;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.completed-text {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #10b981;
+    margin: 15px 0;
+}
+
+.player-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================= */
+/* 🔘 Button Styles */
+/* ============================= */
+
+.video-actions-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+.primary-btn {
+    background: var(--accent);
+    color: white;
+    padding: 14px 28px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px rgba(255, 61, 106, 0.3);
+    letter-spacing: 0.3px;
+}
+
+.primary-btn:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(255, 61, 106, 0.4);
+}
+
+.primary-btn:active {
+    transform: translateY(0);
+}
+
+.btn-rewatch,
+.retake-btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    font-size: 14px;
+}
+
+.btn-rewatch {
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.btn-rewatch:hover {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    border-color: var(--text-muted);
+}
+
+.retake-btn {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+}
+
+.retake-btn:hover {
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 4px 10px rgba(255, 61, 106, 0.2);
+}
+
+/* Progress Bar */
+.progress-container {
+    padding: 20px;
+    border-top: 1px solid var(--border-color);
+    margin-top: auto;
+    /* Push to bottom if flex column */
+    background: var(--bg-tertiary);
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--brand-gradient);
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+
+/* Success Message */
+.success-msg {
+    color: #10b981;
+    font-size: 16px;
+    margin: 10px 0;
+    font-weight: 600;
 }

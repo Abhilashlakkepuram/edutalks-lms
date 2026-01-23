@@ -100,46 +100,84 @@
 }
 
 /* COURSE CARD (My Courses) */
+/* DASHBOARD COURSES GRID */
+.dashboard-courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* COURSE CARD (Dashboard) - Updated to match Premium */
 .student-course-card {
   background: var(--bg-secondary);
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  margin-bottom: 16px;
+  height: 100%;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-color);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.student-course-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
 }
 
 .student-course-card h4 {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 8px;
+  margin-bottom: 4px;
+  line-height: 1.4;
 }
 
-.student-course-card p {
-  color: var(--text-secondary);
-  font-size: 14px;
-  margin-bottom: 16px;
+.student-course-card .card-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
 }
 
 /* BUTTONS */
+.text-link-btn {
+  background: none;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.text-link-btn:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+
 .primary-btn {
-  padding: 12px;
+  padding: 10px 20px;
   background: var(--accent);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.2s ease;
   text-align: center;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .primary-btn:hover {
   background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 /* RESPONSIVE */
@@ -315,6 +353,12 @@
 /* Progress */
 .progress-section {
   margin-top: 10px;
+}
+
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
 }
 
 .progress-text {

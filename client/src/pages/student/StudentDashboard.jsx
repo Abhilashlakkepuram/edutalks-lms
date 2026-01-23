@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { getUser, getToken } from "../../utils/auth";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import "../../styles/student.css";
 
 const StudentDashboard = () => {
 	const [user, setUser] = useState(null);
 	const [courses, setCourses] = useState([]);
 	const navigate = useNavigate();
+	const { t } = useTranslation();
 
 	useEffect(() => {
 		// 🔐 1. Load logged-in user
@@ -55,10 +57,12 @@ const StudentDashboard = () => {
 		<div className="student-page">
 			<div className="dashboard-wrapper">
 				{/* WELCOME */}
-				<h1 className="dashboard-page-title">👨‍🎓 Student Dashboard</h1>
+				<h1 className="dashboard-page-title">👨‍🎓 {t('dashboard')}</h1>
 				<div className="dashboard-welcome student-welcome">
 					<div className="welcome-content">
-						<h2>Welcome back, {user?.firstName}! 🎓</h2>
+						<h2>
+							{t('welcomeBack')}, {user?.firstName}! 🎓
+						</h2>
 						<p>Ready to continue learning today?</p>
 					</div>
 
@@ -93,39 +97,77 @@ const StudentDashboard = () => {
 					</div>
 				</div>
 
-				{/* MY COURSES */}
-				{/* MY COURSES */}
+				{/* MY COURSES HEADER */}
 				<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
 					<h3 className="section-heading" style={{ marginBottom: 0 }}>
 						My Courses
 					</h3>
-					<button
-						className="primary-btn"
-						onClick={() => navigate("/")}
-						style={{ fontSize: "14px", padding: "8px 16px" }}
-					>
-						Enroll in New Course
-					</button>
+					<div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+						<button
+							className="primary-btn"
+							onClick={() => navigate("/")}
+							style={{ fontSize: "14px", padding: "8px 16px" }}
+						>
+							Enroll New
+						</button>
+					</div>
 				</div>
 
 				{courses.length === 0 ? (
-					<p style={{ color: "var(--text-secondary)" }}>You have not enrolled in any courses yet.</p>
+					<div className="empty-dashboard-state">
+						<p style={{ color: "var(--text-secondary)" }}>You have not enrolled in any courses yet.</p>
+					</div>
 				) : (
-					courses.map(item => (
-						<div key={item._id} className="student-course-card">
-							<h4>{item.course.title}</h4>
-							<p>Progress: {item.progress || 0}%</p>
-
-							<button
-								className="primary-btn"
-								onClick={() =>
-									navigate(`/student/course/${item.course._id}`)
-								}
+					<div className="dashboard-courses-grid">
+						{courses.slice(0, 3).map(item => (
+							<div
+								key={item._id}
+								className="student-course-card"
+								onClick={() => navigate(`/student/course/${item.course._id}`)}
 							>
-								Continue Learning
-							</button>
-						</div>
-					))
+								<div className="card-image-wrapper">
+									<img
+										src={item.course?.image && item.course?.image !== "" ? item.course.image : "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&auto=format&fit=crop&q=60"}
+										alt={item.course?.title}
+										className="course-img"
+										onError={(e) => {
+											e.target.onerror = null;
+											e.target.src = "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&auto=format&fit=crop&q=60";
+										}}
+									/>
+									<div className="overlay">
+										<div className="play-btn">
+											<i className="fa-solid fa-play"></i>
+										</div>
+									</div>
+								</div>
+
+								<div className="card-content">
+									<h4 className="course-title">{item.course.title}</h4>
+									<p className="instructor-name">
+										{item.course?.instructor?.firstName} {item.course?.instructor?.lastName}
+									</p>
+
+									<div className="progress-section">
+										<div className="progress-labels">
+											<span style={{ fontSize: "12px", color: "var(--text-secondary)" }}>Progress</span>
+											<span style={{ fontSize: "12px", color: "var(--text-primary)", fontWeight: "bold" }}>{item.progress || 0}%</span>
+										</div>
+										<div className="progress-bar-bg">
+											<div
+												className="progress-bar-fill"
+												style={{ width: `${item.progress || 0}%` }}
+											></div>
+										</div>
+									</div>
+
+									<button className="continue-btn" style={{ width: "100%", marginTop: "15px", textAlign: "center" }}>
+										Continue
+									</button>
+								</div>
+							</div>
+						))}
+					</div>
 				)}
 			</div>
 		</div>

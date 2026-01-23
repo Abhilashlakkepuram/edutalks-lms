@@ -2,6 +2,7 @@ const Enrollment = require("../models/Enrollment");
 const Lesson = require("../models/Lesson");
 const User = require("../models/User");
 const Course = require("../models/Course");
+const ExamResult = require("../models/ExamResult");
 const sendEmail = require("../utils/sendEmail");
 
 const getReceiptHtml = (user, course, price, total) => `
@@ -130,6 +131,37 @@ exports.getMyCourses = async (req, res) => {
 
     // Filter out enrollments where the course might have been deleted
     const validEnrollments = enrollments.filter(enrollment => enrollment.course);
+
+    // ✅ Sync completedLessons with ExamResults (Fixes inconsistent state)
+    for (const enrollment of validEnrollments) {
+      if (!enrollment.completedLessons || enrollment.completedLessons.length === 0) continue;
+
+      // Find which of the 'completedLessons' actually have a passed exam result
+      const passedExamResults = await ExamResult.find({
+        student: req.user.id,
+        isPassed: true
+      }).populate({
+        path: 'exam',
+        match: { lesson: { $in: enrollment.completedLessons } },
+        select: 'lesson'
+      });
+
+      const validCompletedLessonIds = passedExamResults
+        .filter(r => r.exam && r.exam.lesson)
+        .map(r => r.exam.lesson.toString());
+
+      // Update the enrollment object in memory (not DB, unless we want to persist the cleanup)
+      // Persisting cleanup is better for consistency
+      if (enrollment.completedLessons.length !== validCompletedLessonIds.length) {
+        enrollment.completedLessons = validCompletedLessonIds;
+        // Recalculate progress
+        const totalLessons = await Lesson.countDocuments({ course: enrollment.course._id });
+        enrollment.progress = totalLessons > 0
+          ? Math.round((validCompletedLessonIds.length / totalLessons) * 100)
+          : 0;
+        await enrollment.save();
+      }
+    }
 
     res.json({
       success: true,

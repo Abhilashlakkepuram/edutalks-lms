@@ -109,3 +109,90 @@
     font-size: 13px
   }
 }
+
+/* ============================= */
+/* 🌐 Language Switcher Animation */
+/* ============================= */
+
+.language-switcher {
+  position: relative;
+  margin-right: 15px;
+}
+
+.language-switcher select {
+  padding: 6px 12px 6px 35px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.2s ease;
+}
+
+.language-switcher select:hover {
+  background: var(--bg-tertiary);
+  transform: translateY(-1px);
+}
+
+.language-switcher select:focus {
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.25);
+  border-color: var(--accent);
+}
+
+.language-switcher i {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-primary);
+  pointer-events: none;
+  animation: globeFloat 3s ease-in-out infinite;
+}
+
+@keyframes globeFloat {
+  0% {
+    transform: translateY(-50%) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-55%) rotate(8deg);
+  }
+
+  100% {
+    transform: translateY(-50%) rotate(0deg);
+  }
+}
+
+/* ============================= */
+/* 🌙 Theme Toggle Animation */
+/* ============================= */
+
+.theme-toggle {
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
+}
+
+.theme-toggle:hover {
+  transform: rotate(12deg) scale(1.08);
+}
+
+/* Rotate icon on theme change */
+.theme-toggle i {
+  transition: transform 0.4s ease;
+}
+
+[data-theme="dark"] .theme-toggle i {
+  transform: rotate(180deg);
+}
+
+/* Click ripple feel */
+.theme-toggle:active {
+  transform: scale(0.92);
+}

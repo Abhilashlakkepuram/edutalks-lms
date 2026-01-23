@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import "../../styles/instructor.css";
 import { getToken } from "../../utils/auth";
 
+import BackButton from "../../components/BackButton";
+
 const MyCourses = () => {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -38,6 +40,10 @@ const MyCourses = () => {
     return (
         <div className="instructor-page">
             <div className="my-courses-wrapper">
+                <div style={{ marginBottom: "15px" }}>
+                    <BackButton to="/instructor/dashboard" label="Back to Dashboard" />
+                </div>
+
                 <div className="my-courses-header">
                     <h2>My Courses</h2>
                     <Link to="/instructor/create-course" className="primary-btn">

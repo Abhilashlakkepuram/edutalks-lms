@@ -11,9 +11,10 @@ const courseRoutes = require("./routes/courseRoutes");
 const enrollmentRoutes = require("./routes/enrollmentRoutes");
 const lessonRoutes = require("./routes/lessonRoutes");
 const instructorRoutes = require("./routes/instructorRoutes");
-const Enrollment = require("./models/Enrollment");
 const adminRoutes = require("./routes/adminRoutes");
-
+const paymentRoutes = require("./routes/paymentRoutes");
+const examRoutes = require("./routes/examRoutes");
+const planRoutes = require("./routes/planRoutes");
 
 /* ---------- Middleware ---------- */
 app.use(cors());
@@ -32,7 +33,11 @@ app.use("/api/enrollments", enrollmentRoutes);
 app.use("/api/lessons", lessonRoutes);
 app.use("/api/instructor", instructorRoutes);
 app.use("/api/admin", adminRoutes);
-app.use("/api/payment", require("./routes/paymentRoutes"));
+app.use("/api/payment", paymentRoutes);
+app.use("/api/exams", examRoutes);
+app.use("/api/plans", planRoutes);
+
+
 
 
 

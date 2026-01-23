@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { getToken, getUser } from "../../utils/auth";
 import "../../styles/admin.css";
 
 const AdminDashboard = () => {
+    const { t } = useTranslation();
     const [stats, setStats] = useState(null);
     const [courses, setCourses] = useState([]);
     const [users, setUsers] = useState([]);
@@ -96,10 +98,10 @@ const AdminDashboard = () => {
 
     return (
         <div className="admin-page">
-            <h1 className="dashboard-page-title">🛡️ Admin Dashboard</h1>
+            <h1 className="dashboard-page-title">🛡️ {t('dashboard')}</h1>
             <div className="dashboard-welcome">
                 <div className="welcome-content">
-                    <h2>Welcome Back, {user?.firstName} {user?.lastName} 👋</h2>
+                    <h2>{t('welcomeBack')}, {user?.firstName} {user?.lastName} 👋</h2>
                     <p>Manage your platform, users, and courses from one place.</p>
                 </div>
                 <div className="welcome-date">

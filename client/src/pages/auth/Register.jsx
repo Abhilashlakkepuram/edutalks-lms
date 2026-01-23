@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate, useLocation } from "react-router-dom";
 import { registerUser } from "../../services/authService";
 import "../../styles/auth-premium.css";
 
 const Register = () => {
+  const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -49,14 +51,14 @@ const Register = () => {
       <div className="split-layout">
         {/* LEFT PANEL */}
         <div className="split-left">
-          <h1 style={{ color: "#333" }}>Join<br /><span style={{ color: "red" }}>Edu</span><span style={{ color: "#333" }}>Talks</span></h1>
-          <p style={{ color: "#333", fontWeight: "bold" }}>Start your learning journey today.</p>
+          <h1 style={{ color: "#333" }}>{t('joinEduTalks').split(' ')[0]}<br /><span style={{ color: "red" }}>Edu</span><span style={{ color: "#333" }}>Talks</span></h1>
+          <p style={{ color: "#333", fontWeight: "bold" }}>{t('startJourney')}</p>
         </div>
 
         {/* RIGHT PANEL */}
         <div className="split-right">
-          <h2>Create Account</h2>
-          <p className="subtitle" style={{ textAlign: "left", marginBottom: "20px" }}>Sign up to access all features.</p>
+          <h2>{t('createAccount')}</h2>
+          <p className="subtitle" style={{ textAlign: "left", marginBottom: "20px" }}>{t('enterDetails')}</p>
 
           {error && <div className="error-message">{error}</div>}
 
@@ -66,7 +68,7 @@ const Register = () => {
               <input
                 className="premium-input"
                 type="text"
-                placeholder="First Name"
+                placeholder={t('firstName')}
                 value={form.firstName}
                 onChange={(e) => setForm({ ...form, firstName: e.target.value })}
                 required
@@ -74,7 +76,7 @@ const Register = () => {
               <input
                 className="premium-input"
                 type="text"
-                placeholder="Last Name"
+                placeholder={t('lastName')}
                 value={form.lastName}
                 onChange={(e) => setForm({ ...form, lastName: e.target.value })}
                 required
@@ -84,7 +86,7 @@ const Register = () => {
             <input
               className="premium-input"
               type="email"
-              placeholder="Email Address"
+              placeholder={t('email')}
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               required
@@ -94,7 +96,7 @@ const Register = () => {
               <input
                 className="premium-input"
                 type={showPassword ? "text" : "password"}
-                placeholder="Password"
+                placeholder={t('password')}
                 value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
                 required
@@ -127,7 +129,7 @@ const Register = () => {
               <input
                 className="premium-input"
                 type={showConfirmPassword ? "text" : "password"}
-                placeholder="Confirm Password"
+                placeholder={t('confirmPassword')}
                 value={form.confirmPassword}
                 onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}
                 required
@@ -161,15 +163,15 @@ const Register = () => {
               value={form.role}
               onChange={(e) => setForm({ ...form, role: e.target.value })}
             >
-              <option value="student">Student</option>
-              <option value="instructor">Instructor</option>
+              <option value="student">{t('student')}</option>
+              <option value="instructor">{t('instructor')}</option>
             </select>
 
-            <button type="submit" className="premium-btn">Sign Up</button>
+            <button type="submit" className="premium-btn">{t('register')}</button>
           </form>
 
           <div className="auth-footer" style={{ textAlign: "left" }}>
-            Already have an account? <a href="/login">Log in</a>
+            {t('alreadyAccount')} <a href="/login">{t('login')}</a>
           </div>
         </div>
       </div>

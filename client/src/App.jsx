@@ -13,6 +13,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import CreateCourse from "./pages/instructor/CreateCourse";
 import CreateLesson from "./pages/instructor/CreateLesson";
 import MyCourses from "./pages/instructor/MyCourses";
+import InstructorStudents from "./pages/instructor/InstructorStudents";
 import StudentMyCourses from "./pages/student/MyCourses";
 import CoursePlayer from "./pages/student/CoursePlayer";
 import Payment from "./pages/student/Payment";
@@ -20,7 +21,10 @@ import CourseDetails from "./pages/CourseDetail";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import PaymentSuccess from "./pages/student/PaymentSuccess";
 import PaymentCancel from "./pages/student/PaymentCancel";
-
+import LessonExam from "./pages/student/LessonExam";
+import CreateExam from "./pages/instructor/CreateExam";
+import ExamResult from "./pages/student/ExamResult";
+import Plans from "./pages/student/Plans";
 
 import "./styles/base.css";
 
@@ -31,6 +35,7 @@ function App() {
       <div className="content">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/plans" element={<Plans />} />
           <Route path="/register" element={<Register />} />
           <Route path="/verify-otp" element={<VerifyOtp />} />
           <Route path="/login" element={<Login />} />
@@ -82,6 +87,14 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/instructor/students"
+            element={
+              <ProtectedRoute allowedRole="instructor">
+                <InstructorStudents />
+              </ProtectedRoute>
+            }
+          />
 
           <Route
             path="/student/course/:courseId"
@@ -118,7 +131,33 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/instructor/create-exam"
+            element={
+              <ProtectedRoute allowedRole="instructor">
+                <CreateExam />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/student/exam/:courseId/:lessonId"
+            element={
+              <ProtectedRoute allowedRole="student">
+                <LessonExam />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/student/exam-result/:courseId/:lessonId"
+            element={
+              <ProtectedRoute allowedRole="student">
+                <ExamResult />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
+
       </div>
     </BrowserRouter>
   );

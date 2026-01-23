@@ -1,0 +1,270 @@
+/* Main Container */
+.exam-page {
+  max-width: 800px;
+
+  padding: 20px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: var(--text-primary);
+}
+
+/* Header */
+.exam-title {
+  font-size: 2rem;
+  font-weight: 700;
+
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.exam-title-assessment {
+  color: var(--accent);
+  margin-left: 8px;
+}
+
+.exam-subtitle-score {
+  color: var(--accent);
+}
+
+
+.exam-subtitle {
+  text-align: center;
+  color: var(--text-secondary);
+  margin-bottom: 3rem;
+  font-size: 1rem;
+}
+
+/* Loading State */
+.exam-loading {
+  text-align: center;
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  margin-top: 4rem;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: .5;
+  }
+}
+
+/* Question Cards */
+.question-card {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-md);
+  border: 1px solid #f3f4f6;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.question-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.question-card h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+/* Options */
+.option {
+  display: block;
+  position: relative;
+  padding: 1rem 1.25rem;
+  margin-bottom: 0.75rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: var(--bg-tertiary);
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.option:hover {
+  border-color: var(--border-color);
+  background-color: var(--bg-primary);
+}
+
+/* Hide default radio */
+.option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.option.selected {
+  border-color: #6366f1;
+  background-color: #eef2ff;
+  color: #4f46e5;
+  box-shadow: 0 0 0 1px #6366f1;
+}
+
+/* Submit Button */
+.exam-submit {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin: 3rem auto 0;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 1.125rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);
+}
+
+.exam-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.4);
+}
+
+.exam-submit:active {
+  transform: translateY(1px);
+}
+
+.exam-submit:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ========================================= */
+/*       EXAM RESULT PAGE STYLES             */
+/* ========================================= */
+
+.result-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+}
+
+.result-card {
+  background: var(--bg-secondary);
+  padding: 3rem;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: var(--shadow-lg);
+  border: 2px solid transparent;
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.result-card.pass {
+  border-color: #10b981;
+  /* Green border for success */
+}
+
+.result-card.fail {
+  border-color: #ef4444;
+  /* Red border for failure */
+}
+
+.result-card h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: var(--text-primary);
+}
+
+.result-score {
+  font-size: 1.5rem;
+  margin: 1.5rem 0;
+  color: var(--text-secondary);
+}
+
+.result-score strong {
+  color: var(--text-primary);
+  font-weight: 800;
+}
+
+.result-info {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+}
+
+.result-actions {
+  margin-top: 2rem;
+}
+
+.success-msg {
+  color: #059669;
+  background: #ecfdf5;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.fail-msg {
+  color: #dc2626;
+  background: #fef2f2;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+/* Button Styles for Result Page */
+.primary-btn {
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+  width: 100%;
+}
+
+.continue-btn {
+  background: #10b981;
+  color: white;
+}
+
+.continue-btn:hover {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
+.retry-btn {
+  background: #ef4444;
+  color: white;
+}
+
+.retry-btn:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+}
