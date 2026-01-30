@@ -1,0 +1,219 @@
+.help-page {
+    /* Font family inherited from body */
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    min-height: 100vh;
+}
+
+/* HERO */
+.help-hero {
+    text-align: center;
+    padding: 80px 20px 50px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.help-hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+}
+
+.help-search {
+    width: 60%;
+    max-width: 600px;
+    padding: 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    font-size: 16px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    transition: border-color 0.2s;
+}
+
+.help-search:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+/* CATEGORIES */
+.help-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 25px;
+    padding: 50px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.help-card {
+    border: 1px solid var(--border-color);
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    transition: all 0.3s ease;
+    background: var(--bg-secondary);
+    box-shadow: var(--shadow-sm);
+}
+
+.help-card h3 {
+    color: var(--text-primary);
+    margin-bottom: 10px;
+}
+
+.help-card p {
+    color: var(--text-secondary);
+}
+
+.help-card i {
+    font-size: 32px;
+    margin-bottom: 15px;
+    color: var(--accent);
+}
+
+.help-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-5px);
+    border-color: var(--accent);
+}
+
+/* TOPICS */
+.help-topics {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.help-topics h2 {
+    color: var(--text-primary);
+    margin-bottom: 20px;
+}
+
+.topics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.topics-grid div {
+    padding: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+}
+
+.topics-grid div:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-sm);
+    transform: translateX(4px);
+}
+
+/* FAQ */
+.help-faq {
+    padding: 50px 20px;
+    background: var(--bg-primary);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.help-faq h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: var(--text-primary);
+}
+
+.faq-item {
+    margin-bottom: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--bg-secondary);
+}
+
+.faq-question {
+    padding: 18px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.faq-question:hover {
+    background: var(--bg-tertiary);
+}
+
+.faq-question i {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.faq-answer {
+    padding: 20px;
+    background: var(--bg-primary);
+    /* Slightly different bg for contrast */
+    color: var(--text-secondary);
+    line-height: 1.6;
+    border-top: 1px solid var(--border-color);
+}
+
+/* CONTACT CTA */
+.help-contact {
+    text-align: center;
+    padding: 80px 20px;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+}
+
+.help-contact h2 {
+    color: var(--text-primary);
+    margin-bottom: 10px;
+}
+
+.help-contact p {
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+}
+
+.help-contact-btn {
+    padding: 12px 28px;
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    display: inline-block;
+}
+
+.help-contact-btn:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 61, 106, 0.3);
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+    .help-hero h1 {
+        font-size: 2rem;
+    }
+
+    .help-search {
+        width: 100%;
+    }
+
+    .help-categories {
+        grid-template-columns: 1fr;
+    }
+
+    .topics-grid {
+        grid-template-columns: 1fr;
+    }
+}

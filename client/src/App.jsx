@@ -25,7 +25,13 @@ import LessonExam from "./pages/student/LessonExam";
 import CreateExam from "./pages/instructor/CreateExam";
 import ExamResult from "./pages/student/ExamResult";
 import Plans from "./pages/student/Plans";
-
+import Footer from "./components/Footer";
+import About from "./pages/about/About";
+import Careers from "./pages/Careers/Careers";
+import Contact from "./pages/Contact/Contact";
+import HelpCenter from "./pages/HelpCenter/HelpCenter";
+import Terms from "./pages/Terms/Terms";
+import Blog from "./pages/Blog/Blog";
 import "./styles/base.css";
 
 function App() {
@@ -156,9 +162,16 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/about" element={<About />} />
+          <Route path="/careers" element={<Careers />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/help" element={<HelpCenter />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/blog" element={<Blog />} />
         </Routes>
 
       </div>
+      <Footer />
     </BrowserRouter>
   );
 }

@@ -41,7 +41,7 @@ const InstructorDashboard = () => {
   return (
     <div className="instructor-page">
       <div className="dashboard-wrapper">
-        <h1 className="dashboard-page-title">👨‍🏫 {t('dashboard')}</h1>
+        <h1 className="dashboard-page-title">👨‍🏫 Instructor {t('dashboard')}</h1>
         <div className="dashboard-welcome">
           <div className="welcome-content">
             <h2>

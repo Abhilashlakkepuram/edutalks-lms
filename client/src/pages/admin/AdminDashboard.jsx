@@ -98,7 +98,7 @@ const AdminDashboard = () => {
 
     return (
         <div className="admin-page">
-            <h1 className="dashboard-page-title">🛡️ {t('dashboard')}</h1>
+            <h1 className="dashboard-page-title">🛡️ Admin {t('dashboard')}</h1>
             <div className="dashboard-welcome">
                 <div className="welcome-content">
                     <h2>{t('welcomeBack')}, {user?.firstName} {user?.lastName} 👋</h2>

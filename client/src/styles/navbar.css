@@ -152,6 +152,7 @@
   transform: translateY(-50%);
   color: var(--text-primary);
   pointer-events: none;
+  z-index: 1;
   animation: globeFloat 3s ease-in-out infinite;
 }
 

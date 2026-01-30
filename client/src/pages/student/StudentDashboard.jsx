@@ -57,7 +57,7 @@ const StudentDashboard = () => {
 		<div className="student-page">
 			<div className="dashboard-wrapper">
 				{/* WELCOME */}
-				<h1 className="dashboard-page-title">👨‍🎓 {t('dashboard')}</h1>
+				<h1 className="dashboard-page-title">👨‍🎓 Student {t('dashboard')}</h1>
 				<div className="dashboard-welcome student-welcome">
 					<div className="welcome-content">
 						<h2>

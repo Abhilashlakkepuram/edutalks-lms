@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const generateOtp = require("../utils/generateOtp");
 const sendEmail = require("../utils/sendEmail");
+const LoginActivity = require("../models/LoginActivity");
 const sendSms = require("../utils/sendSms");
 
 const getOtpHtml = (otp) => `
@@ -144,6 +145,13 @@ exports.login = async (req, res) => {
       return res.status(401).json({ success: false, message: "Invalid credentials" });
     }
 
+    // ✅ Track login activity BEFORE sending response
+    await LoginActivity.create({
+      user: user._id,
+      role: user.role,
+      state: user.state || "Unknown"
+    });
+
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,
@@ -161,9 +169,11 @@ exports.login = async (req, res) => {
       }
     });
   } catch (error) {
+    console.error("Login Error:", error);
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
 
 
 /* ---------------- RESEND OTP ---------------- */

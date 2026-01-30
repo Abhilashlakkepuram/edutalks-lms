@@ -15,6 +15,7 @@ const adminRoutes = require("./routes/adminRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const examRoutes = require("./routes/examRoutes");
 const planRoutes = require("./routes/planRoutes");
+const subscriptionRoutes = require("./routes/subscriptionRoutes");
 
 /* ---------- Middleware ---------- */
 app.use(cors());
@@ -36,6 +37,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/exams", examRoutes);
 app.use("/api/plans", planRoutes);
+app.use("/api/subscriptions", subscriptionRoutes);
 
 
 

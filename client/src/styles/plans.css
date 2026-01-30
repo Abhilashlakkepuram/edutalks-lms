@@ -25,12 +25,14 @@
 }
 
 .plans-grid {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     justify-content: center;
     gap: 30px;
-    max-width: 1200px;
+    max-width: 1400px;
+    /* Increased max-width */
     width: 100%;
+    margin-bottom: 50px;
 }
 
 .plan-card {
@@ -116,48 +118,396 @@
     flex: 1;
 }
 
-.feature-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 14px;
+/* UDEMY STYLE HEADER */
+.plans-hero.udemy-style {
+    text-align: left;
+    max-width: 1400px;
+    width: 100%;
+    margin-bottom: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.plans-hero.udemy-style h1 {
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+}
+
+.plans-hero.udemy-style p {
+    font-size: 18px;
     color: var(--text-secondary);
+    max-width: 800px;
+    margin: 0;
+}
+
+/* GRID */
+.plans-grid.udemy-style-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    justify-content: center;
+    gap: 0;
+    /* Cards touch or have small gap */
+    max-width: 1200px;
+    margin-bottom: 80px;
+}
+
+/* UDEMY STYLE CARD */
+.plan-card.udemy-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 0;
+    /* Sharp corners like Udemy */
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: none;
+    transition: none;
+    height: 100%;
+}
+
+.plan-card.udemy-card:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.plan-card.udemy-card:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+/* Featured card highlight */
+.plan-card.udemy-card.featured {
+    border-top: 6px solid var(--accent);
+    /* Brand accent */
+    transform: none;
+    box-shadow: 0 4px 12px var(--shadow-md);
+    z-index: 1;
+}
+
+.best-seller-badge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: var(--accent);
+    /* Brand accent */
+    color: var(--text-inverse);
+    text-align: center;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 4px 0;
+    text-transform: uppercase;
+}
+
+.plan-card.udemy-card.featured .best-seller-badge {
+    top: -24px;
+    display: inline-block;
+    width: auto;
+    left: 0;
+    padding: 4px 12px;
+    background: var(--accent);
+    color: var(--text-inverse);
+    top: 0;
+}
+
+.card-header {
+    margin-bottom: 15px;
+}
+
+.plan-name {
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 5px;
+    color: var(--text-primary);
+}
+
+.plan-audience {
     font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.plan-price-box {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.plan-price {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.plan-period {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.plan-btn.udemy-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--accent);
+    /* Brand button color */
+    color: var(--text-inverse);
+    font-weight: 700;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.plan-btn.udemy-btn:hover {
+    background: var(--accent-hover);
+}
+
+.cancel-text {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+}
+
+.features-title {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+}
+
+.plan-features {
+    list-style: none;
+    padding: 0;
+}
+
+.feature-item {
+    font-size: 14px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
 }
 
 .feature-icon {
-    color: #10b981;
-    font-size: 16px;
+    margin-top: 3px;
+    font-size: 12px;
+    color: var(--text-primary);
+    /* Simple checkmarks */
 }
 
-.plan-btn {
+.plans-trust {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 50px;
+    color: var(--text-secondary);
+    flex-wrap: wrap;
+}
+
+.plans-comparison {
+    margin-top: 50px;
+    /* Reduced from 100px */
+    padding-bottom: 50px;
     width: 100%;
-    padding: 14px;
-    border-radius: 10px;
+}
+
+.comparison-title {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+    text-align: center;
+}
+
+.comparison-subtitle {
+    color: var(--text-secondary);
+    text-align: center;
+    margin-bottom: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.comparison-container {
+    overflow-x: auto;
+    max-width: 1000px;
+    margin: 0 auto;
+    border-radius: 20px;
     border: 1px solid var(--border-color);
-    background: var(--bg-tertiary);
+    background: var(--bg-secondary);
+    box-shadow: var(--shadow-md);
+    /* Glassmorphism hook if variables support it, else fallback */
+    backdrop-filter: blur(10px);
+}
+
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+    /* Ensure it scrolls on mobile rather than squishing */
+}
+
+.comparison-table th,
+.comparison-table td {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.comparison-table th {
+    padding-top: 40px;
+    /* Extra space for badge */
+}
+
+.feature-header {
+    text-align: left;
+    font-size: 18px;
+    color: var(--text-primary);
+    background-color: var(--bg-secondary);
+    /* Sticky header bg */
+    position: sticky;
+    left: 0;
+    z-index: 10;
+    width: 30%;
+}
+
+.plan-header {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    position: relative;
+    min-width: 150px;
+}
+
+.plan-header.recommended {
+    color: var(--accent);
+}
+
+.recommended-badge {
+    position: absolute;
+    top: 10px;
+    /* Moved inside the padding area */
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: var(--text-inverse);
+    font-size: 10px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.section-row td {
+    background-color: var(--bg-tertiary);
     color: var(--text-primary);
     font-weight: 700;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    text-align: left;
+    padding: 12px 20px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.plan-btn:hover {
-    background: var(--text-primary);
-    color: var(--bg-primary);
-    border-color: transparent;
+.feature-name {
+    text-align: left;
+    font-weight: 500;
+    color: var(--text-secondary);
+    position: sticky;
+    left: 0;
+    background-color: inherit;
+    /* Matches row bg */
+    z-index: 5;
 }
 
-.plan-card.featured .plan-btn {
-    background: var(--accent);
-    color: white;
+/* Zebra striping for readability */
+.comparison-table tr:nth-child(even) td {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+.feature-status {
+    font-size: 20px;
+}
+
+.check-icon {
+    color: #10b981;
+    /* Green */
+    filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.2));
+}
+
+.cross-icon {
+    color: var(--text-muted);
+    /* Greyed out usually better than red for "missing" features in comparisons */
+    opacity: 0.3;
+}
+
+.comparison-table tr:hover td {
+    background-color: var(--bg-tertiary);
+    /* Use variable for hover */
+}
+
+/* FAQ SECTION */
+.plans-faq {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.faq-grid {
+    margin-top: 20px;
+}
+
+.faq-item {
+    background: var(--bg-secondary);
+    /* Use variable */
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    /* Use variable */
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.faq-item h4 {
+    margin-bottom: 6px;
+    color: var(--text-primary);
+    /* Ensure text visibility */
+}
+
+.faq-item p {
+    color: var(--text-secondary);
+    /* Ensure text visibility */
+}
+
+.plans-cta {
+    text-align: center;
+    padding: 50px;
+    background: var(--bg-secondary);
+    /* Use variable */
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+}
+
+.plans-cta h2 {
+    margin-bottom: 10px;
+    color: var(--text-primary);
+}
+
+.plans-cta p {
+    color: var(--text-secondary);
+}
+
+.plans-cta button {
+    margin-top: 15px;
+    padding: 12px 30px;
     border: none;
-    box-shadow: 0 4px 10px rgba(255, 61, 106, 0.3);
-}
-
-.plan-card.featured .plan-btn:hover {
-    background: var(--accent-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(255, 61, 106, 0.4);
+    border-radius: 8px;
+    background: var(--accent);
+    /* Brand color */
+    color: var(--text-inverse);
+    font-weight: 700;
+    cursor: pointer;
 }
