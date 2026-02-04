@@ -3,7 +3,8 @@ const {
   enrollCourse,
   getMyCourses,
   updateProgress,
-  completeLesson
+  completeLesson,
+  checkEnrollmentStatus
 } = require("../controllers/enrollmentController");
 
 const authMiddleware = require("../middlewares/authMiddleware");
@@ -39,6 +40,13 @@ router.post(
   updateProgress
 );
 
+
+// Check enrollment status
+router.get(
+  "/:courseId/status",
+  authMiddleware,
+  checkEnrollmentStatus
+);
 
 /* ---------------- COMPLETE LESSON ---------------- */
 /* ---------------- COMPLETE LESSON ---------------- */

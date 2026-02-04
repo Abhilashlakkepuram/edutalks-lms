@@ -1,32 +1,73 @@
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getToken } from "../../utils/auth";
 import BackButton from "../../components/BackButton";
 
+import "../../styles/payment.css";
+
 const Payment = () => {
     const { courseId } = useParams();
     const navigate = useNavigate();
+    const [course, setCourse] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchCourse = async () => {
+            try {
+                const res = await fetch(`http://localhost:5000/api/courses/${courseId}`);
+                const data = await res.json();
+                if (data.success) {
+                    setCourse(data.course);
+                } else {
+                    setError("Failed to load course details.");
+                }
+            } catch (err) {
+                console.error("Error fetching course:", err);
+                setError("Something went wrong.");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (courseId) fetchCourse();
+    }, [courseId]);
 
     const handlePayment = async () => {
+        if (!course) return;
         const token = getToken();
 
         try {
-            const res = await fetch("http://localhost:5000/api/payment/checkout", {
+            // Direct enrollment call (Bypassing Stripe as requested)
+            // Mocking payment details to send to backend for email
+            const paymentId = "PAY_" + Math.random().toString(36).substr(2, 9).toUpperCase();
+            const paymentMethod = "Credit Card"; // or "UPI"
+            const paymentDate = new Date().toISOString();
+
+            const res = await fetch("http://localhost:5000/api/enrollments", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`
                 },
                 body: JSON.stringify({
-                    course: { _id: courseId, title: "Course Enrollment", price: 499 }
+                    courseId: course._id,
+                    paymentInfo: {
+                        amount: finalPrice,
+                        paymentId,
+                        paymentMethod,
+                        date: paymentDate
+                    }
                 })
             });
 
             const data = await res.json();
-            if (data.success) {
-                // Redirect to Stripe Checkout
-                window.location.href = data.url;
+
+            if (data.success || data.message === "Already enrolled") {
+                alert("Payment Success! Course details have been sent to your email.");
+                navigate("/student/dashboard");
             } else {
-                alert("Payment failed: " + (data.message || "Unknown error"));
+                alert("Enrollment failed: " + (data.message || "Unknown error"));
             }
 
         } catch (error) {
@@ -35,34 +76,50 @@ const Payment = () => {
         }
     };
 
+    if (loading) return <div className="loading-container">Loading course details...</div>;
+    if (error) return <div className="error-container">{error}</div>;
+    if (!course) return null;
+
+    const originalPrice = course.price;
+    const discount = course.discount || 0;
+    const finalPrice = Math.round(originalPrice * (1 - discount / 100));
+
     return (
-        <div style={{ padding: "40px 20px", display: "flex", justifyContent: "center", minHeight: "80vh", alignItems: "center", background: "#f9fafb" }}>
-            <div style={{ maxWidth: "480px", width: "100%", textAlign: "center", padding: "40px", background: "white", boxShadow: "0 10px 25px rgba(0,0,0,0.05)", borderRadius: "16px", border: "1px solid #e5e7eb" }}>
+        <div className="payment-container">
+            <div className="payment-card">
                 <BackButton />
-                <div style={{ marginBottom: "20px", fontSize: "48px", color: "#4f46e5" }}>
+                <div className="payment-icon-wrapper">
                     <i className="fa-solid fa-lock"></i>
                 </div>
-                <h2 style={{ marginBottom: "10px", color: "#111827", fontSize: "24px" }}>Secure Checkout</h2>
-                <p style={{ marginBottom: "30px", color: "#6b7280", lineHeight: "1.5" }}>
-                    You are being redirected to our secure payment partner, Stripe.
-                    We do not store your card details.
+                <h2 className="payment-title">Secure Checkout</h2>
+                <p className="payment-description">
+                    You are ensuring access to <strong>{course.title}</strong>.
+                    <br />
+                    Redirecting to secure payment partner.
                 </p>
 
-                <div style={{ background: "#f3f4f6", padding: "15px", borderRadius: "8px", marginBottom: "30px", border: "1px dashed #d1d5db" }}>
-                    <p style={{ margin: "0 0 5px", fontSize: "14px", color: "#6b7280" }}>Total to Pay</p>
-                    <p style={{ margin: "0", fontSize: "28px", fontWeight: "bold", color: "#111827" }}>₹499</p>
+                <div className="payment-summary-box">
+                    <p className="payment-summary-label">Total to Pay</p>
+                    <p className="payment-amount">
+                        ₹{finalPrice}
+                        {discount > 0 && (
+                            <span className="payment-original-price">
+                                ₹{originalPrice}
+                            </span>
+                        )}
+                    </p>
+                    {discount > 0 && <span className="payment-discount-badge">Shape your future with {discount}% OFF!</span>}
                 </div>
 
                 <button
-                    className="premium-btn"
+                    className="premium-btn payment-button"
                     onClick={handlePayment}
-                    style={{ width: "100%", justifyContent: "center", fontSize: "16px", padding: "16px" }}
                 >
                     <i className="fa-solid fa-credit-card" style={{ marginRight: "10px" }}></i>
                     Pay Securely via Card / UPI
                 </button>
 
-                <div style={{ marginTop: "20px", display: "flex", justifyContent: "center", gap: "10px", color: "#9ca3af", fontSize: "24px" }}>
+                <div className="payment-methods-icons">
                     <i className="fa-brands fa-cc-visa"></i>
                     <i className="fa-brands fa-cc-mastercard"></i>
                     <i className="fa-brands fa-google-pay"></i>

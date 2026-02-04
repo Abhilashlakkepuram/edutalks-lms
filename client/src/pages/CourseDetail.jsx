@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getUser, isLoggedIn } from "../utils/auth";
-import "../styles/base.css";
+import { getUser, isLoggedIn, getToken } from "../utils/auth";
+import "../styles/coursedetail.css"; // Import the new CSS
 import BackButton from "../components/BackButton";
 
 const CourseDetails = () => {
@@ -9,6 +9,7 @@ const CourseDetails = () => {
   const navigate = useNavigate();
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isEnrolled, setIsEnrolled] = useState(false);
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -25,10 +26,33 @@ const CourseDetails = () => {
       }
     };
 
+    const checkEnrollment = async () => {
+      if (!isLoggedIn()) return;
+
+      try {
+        const token = getToken();
+        const res = await fetch(`http://localhost:5000/api/enrollments/${courseId}/status`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (data.success && data.isEnrolled) {
+          setIsEnrolled(true);
+        }
+      } catch (error) {
+        console.error("Check enrollment error:", error);
+      }
+    };
+
     fetchCourse();
+    checkEnrollment();
   }, [courseId]);
 
   const handleEnroll = () => {
+    if (isEnrolled) {
+      navigate(`/student/course/${courseId}`);
+      return;
+    }
+
     if (!isLoggedIn()) {
       navigate("/register", {
         state: { redirectTo: `/payment/${courseId}` }
@@ -45,54 +69,92 @@ const CourseDetails = () => {
     navigate(`/payment/${courseId}`);
   };
 
-  if (loading) return <div style={{ padding: "40px" }}>Loading...</div>;
-  if (!course) return <div style={{ padding: "40px" }}>Course not found</div>;
+  if (loading) return <div className="loading-container">Loading...</div>;
+  if (!course) return <div className="error-container">Course not found</div>;
+
+  const originalPrice = course.price;
+  const discount = course.discount || 0;
+  const finalPrice = Math.round(originalPrice * (1 - discount / 100));
 
   return (
-    <div style={{ padding: "40px", maxWidth: "800px", margin: "0 auto" }}>
-      <BackButton />
-      <div className="course-header" style={{ marginBottom: "30px" }}>
-        <img
-          src={course.image || "https://via.placeholder.com/800x400"}
-          alt={course.title}
-          className="course-detail-img"
-        />
-
-        <h1 style={{ fontSize: "32px", marginBottom: "10px" }}>{course.title}</h1>
-        <p style={{ color: "#666", fontSize: "18px", marginBottom: "20px" }}>
-          Created by {course.instructor?.firstName} {course.instructor?.lastName}
-        </p>
-
-        <div style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "30px" }}>
-          <span style={{ fontSize: "24px", fontWeight: "bold", color: "#4f46e5" }}>
-            ₹{course.price}
-          </span>
-          <button onClick={handleEnroll} className="primary-btn">
-            Enroll Now
-          </button>
+    <div className="cd-course-detail-page">
+      {/* Hero Section */}
+      <div className="cd-hero">
+        <div className="cd-hero-content">
+          <div className="cd-hero-text">
+            <BackButton />
+            <h1 className="cd-hero-title">{course.title}</h1>
+            <p className="cd-hero-description">{course.description && course.description.substring(0, 150)}...</p>
+            <div className="cd-hero-meta">
+              <span>Created by <span className="cd-instructor-name">{course.instructor?.firstName} {course.instructor?.lastName}</span></span>
+              <span><i className="fa-solid fa-calendar-days"></i> Last updated {new Date(course.updatedAt || Date.now()).toLocaleDateString()}</span>
+              <span><i className="fa-solid fa-globe"></i> English</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="course-description">
-        <h3 style={{ borderBottom: "1px solid #eee", paddingBottom: "10px", marginBottom: "20px" }}>About this Course</h3>
-        <p style={{ lineHeight: "1.6", color: "#374151", marginBottom: "40px" }}>{course.description}</p>
+      <div className="cd-content-wrapper">
+        {/* Left Column */}
+        <div className="cd-main-content">
+          {/* About Course */}
+          <div className="cd-about-section">
+            <h3 className="cd-section-title">About this Course</h3>
+            <p className="cd-about-text">{course.description}</p>
+          </div>
 
-        {/* ✅ SYLLABUS SECTION */}
-        <h3 style={{ borderBottom: "1px solid #eee", paddingBottom: "10px", marginBottom: "20px" }}>Course Content</h3>
-        <div className="lesson-list">
-          {course.lessons && course.lessons.length > 0 ? (
-            course.lessons.map((lesson, index) => (
-              <div key={lesson._id} className="lesson-item-public">
-                <div className="lesson-info">
-                  <span className="lesson-number">{index + 1}</span>
-                  <span className="lesson-title">{lesson.title}</span>
-                </div>
-                <span className="lock-icon">🔒</span>
+          {/* Syllabus */}
+          <div className="cd-syllabus-section">
+            <h3 className="cd-section-title">Course Content</h3>
+            <div className="cd-lesson-list">
+              {course.lessons && course.lessons.length > 0 ? (
+                course.lessons.map((lesson, index) => (
+                  <div key={lesson._id} className="cd-lesson-item">
+                    <div className="cd-lesson-info">
+                      <span className="cd-lesson-number">{index + 1}</span>
+                      <span className="cd-lesson-title">{lesson.title}</span>
+                    </div>
+                    <span className="cd-lock-icon"><i className="fa-solid fa-lock"></i></span>
+                  </div>
+                ))
+              ) : (
+                <p style={{ padding: "20px", color: "#666", fontStyle: "italic", textAlign: "center" }}>No lessons added yet.</p>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column (Sidebar) */}
+        <div className="cd-sidebar-content">
+          <div className="cd-enrollment-card">
+            <img
+              src={course.image || "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"}
+              alt={course.title}
+              className="cd-course-preview-img"
+            />
+            <div className="cd-card-body">
+              <div className="cd-price-container">
+                <span className="cd-current-price">₹{finalPrice}</span>
+                {discount > 0 && (
+                  <>
+                    <span className="cd-original-price">₹{originalPrice}</span>
+                    <span className="cd-discount-tag">{discount}% OFF</span>
+                  </>
+                )}
               </div>
-            ))
-          ) : (
-            <p style={{ color: "#666", fontStyle: "italic" }}>No lessons added yet.</p>
-          )}
+
+              <button onClick={handleEnroll} className={`cd-enroll-btn ${isEnrolled ? "enrolled-btn" : ""}`}>
+                {isEnrolled ? "Go to Course" : "Enroll Now"}
+              </button>
+
+              <ul className="cd-course-features">
+                <li><i className="fa-solid fa-infinity cd-feature-icon"></i> Full lifetime access</li>
+                <li><i className="fa-solid fa-mobile-screen cd-feature-icon"></i> Access on mobile and desktop</li>
+                <li><i className="fa-solid fa-trophy cd-feature-icon"></i> Certificate of completion</li>
+                <li><i className="fa-solid fa-chalkboard-user cd-feature-icon"></i> Expert instructor support</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>

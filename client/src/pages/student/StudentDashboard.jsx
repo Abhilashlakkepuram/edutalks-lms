@@ -119,7 +119,7 @@ const StudentDashboard = () => {
 					</div>
 				) : (
 					<div className="dashboard-courses-grid">
-						{courses.slice(0, 3).map(item => (
+						{courses.map(item => (
 							<div
 								key={item._id}
 								className="student-course-card"

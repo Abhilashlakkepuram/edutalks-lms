@@ -1,0 +1,174 @@
+/* Payment Page Styles */
+
+.payment-container {
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    min-height: 80vh;
+    align-items: center;
+    background: #f9fafb;
+}
+
+.payment-card {
+    max-width: 480px;
+    width: 100%;
+    text-align: center;
+    padding: 40px;
+    background: white;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    border-radius: 16px;
+    border: 1px solid #e5e7eb;
+    position: relative;
+    /* For back button positioning */
+}
+
+/* Position Back Button top-left */
+.payment-card .back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    margin: 0;
+    /* Remove default margin */
+}
+
+.payment-icon-wrapper {
+    margin-bottom: 20px;
+    font-size: 48px;
+    color: #4f46e5;
+}
+
+.payment-title {
+    margin-bottom: 10px;
+    color: #111827;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.payment-description {
+    margin-bottom: 30px;
+    color: #6b7280;
+    line-height: 1.5;
+}
+
+.payment-summary-box {
+    background: #f3f4f6;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    border: 1px dashed #d1d5db;
+}
+
+.payment-summary-label {
+    margin: 0 0 5px;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.payment-amount {
+    margin: 0;
+    font-size: 28px;
+    font-weight: bold;
+    color: #111827;
+}
+
+.payment-original-price {
+    font-size: 16px;
+    text-decoration: line-through;
+    color: #9ca3af;
+    margin-left: 10px;
+    font-weight: normal;
+}
+
+.payment-discount-badge {
+    font-size: 12px;
+    color: #10b981;
+    font-weight: bold;
+    display: block;
+    margin-top: 5px;
+}
+
+.payment-button {
+    width: 100%;
+    justify-content: center;
+    font-size: 16px;
+    padding: 16px;
+    background-color: #4f46e5;
+    /* Primary */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.payment-button:hover {
+    background-color: #4338ca;
+}
+
+.payment-methods-icons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    color: #9ca3af;
+    font-size: 24px;
+}
+
+.loading-container {
+    padding: 50px;
+    text-align: center;
+    color: #6b7280;
+}
+
+.error-container {
+    padding: 50px;
+    text-align: center;
+    color: #ef4444;
+}
+
+/* Dark Mode Support */
+[data-theme="dark"] .payment-container {
+    background-color: #0f172a;
+    /* Slate 900 */
+}
+
+[data-theme="dark"] .payment-card {
+    background-color: #1e293b;
+    /* Slate 800 */
+    border-color: #334155;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    /* Stronger shadow */
+}
+
+[data-theme="dark"] .payment-title {
+    color: #f8fafc;
+}
+
+[data-theme="dark"] .payment-description {
+    color: #cbd5e1;
+}
+
+[data-theme="dark"] .payment-summary-box {
+    background-color: #334155;
+    border-color: #475569;
+}
+
+[data-theme="dark"] .payment-summary-label {
+    color: #cbd5e1;
+}
+
+[data-theme="dark"] .payment-amount {
+    color: #f8fafc;
+}
+
+[data-theme="dark"] .payment-original-price {
+    color: #94a3b8;
+}
+
+[data-theme="dark"] .payment-methods-icons {
+    color: #64748b;
+}
+
+[data-theme="dark"] .loading-container {
+    color: #cbd5e1;
+}

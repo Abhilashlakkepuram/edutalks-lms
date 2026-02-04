@@ -5,40 +5,87 @@ const Course = require("../models/Course");
 const ExamResult = require("../models/ExamResult");
 const sendEmail = require("../utils/sendEmail");
 
-const getReceiptHtml = (user, course, price, total) => `
-<div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; padding: 40px; text-align: center;">
-  <div style="max-width: 600px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); overflow: hidden; text-align: left;">
-    <div style="background: linear-gradient(90deg, #4f46e5, #ec4899); padding: 30px; color: white; text-align: center;">
-      <h1 style="margin: 0; font-size: 28px; font-weight: 700;">EduTalks</h1>
-      <p style="margin: 5px 0 0; opacity: 0.9; font-size: 16px;">Enrollment Confirmation</p>
+const getReceiptHtml = (user, course, price, discount, total, enrollmentId, paymentInfo) => `
+<div style="font-family: 'Udemy Sans', 'SF Pro Text', -apple-system, BlinkMacSystemFont, Roboto, 'Segoe UI', Helvetica, Arial, sans-serif; background-color: #f7f9fa; padding: 40px 0; color: #2d2f31;">
+  <div style="max-width: 600px; margin: 0 auto; background: white; border: 1px solid #d1d7dc; box-shadow: 0 2px 4px rgba(0,0,0,0.08); text-align: left;">
+    
+    <!-- Header -->
+    <div style="padding: 24px; border-bottom: 1px solid #d1d7dc; display: flex; align-items: center; justify-content: space-between;">
+      <h1 style="margin: 0; font-size: 24px; font-weight: 700; color: #a435f0;">EduTalks</h1>
     </div>
-    <div style="padding: 40px 30px;">
-      <h2 style="color: #1f2937; margin-bottom: 20px; font-size: 22px;">Hello ${user.firstName},</h2>
-      <p style="color: #4b5563; margin-bottom: 20px; font-size: 16px; line-height: 1.6;">
-        Congratulations! You have successfully enrolled in <strong>${course.title}</strong>. 
-        We are excited to help you learn and grow.
+    <div style="text-align: right; padding: 24px;">
+      <span style="font-size: 13px; color: #6a6f73; display: block;">Date: ${new Date(paymentInfo?.date || Date.now()).toLocaleDateString()}</span>
+    </div>
+
+    <!-- Content -->
+    <div style="padding: 32px 24px;">
+      <h2 style="margin: 0 0 16px; font-size: 20px; font-weight: 700; color: #2d2f31;">Success! You are enrolled.</h2>
+      <p style="margin: 0 0 24px; font-size: 16px; line-height: 1.4; color: #2d2f31;">
+        Hi ${user.firstName}, you have successfully enrolled in the course. 
+        Here are your enrollment details.
       </p>
-      <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
-        <h3 style="margin-top: 0; color: #111827; font-size: 18px;">Course Details</h3>
-        <p style="margin: 5px 0; color: #6b7280; font-size: 14px;"><strong>Instructor:</strong> ${course.instructor.firstName} ${course.instructor.lastName}</p>
-        <div style="margin-top: 15px; border-top: 1px solid #e5e7eb; padding-top: 15px;">
-           <div style="display: flex; justify-content: space-between; margin-bottom: 8px; color: #4b5563;">
-             <span>Price</span>
-             <span>₹${price}</span>
-           </div>
-           <div style="display: flex; justify-content: space-between; font-weight: bold; color: #111827; font-size: 18px; margin-top: 10px; border-top: 1px dashed #d1d5db; padding-top: 10px;">
-             <span>Total Paid</span>
-             <span>₹${total}</span>
-           </div>
+
+      <!-- Payment Summary Table -->
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+        <thead>
+          <tr style="border-bottom: 1px solid #d1d7dc;">
+            <th style="text-align: left; padding: 12px 0; font-size: 14px; color: #6a6f73; font-weight: 700;">ITEM</th>
+            <th style="text-align: right; padding: 12px 0; font-size: 14px; color: #6a6f73; font-weight: 700;">PRICE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 16px 0; border-bottom: 1px solid #e8eaeb; vertical-align: top;">
+              <div>
+                <div style="font-weight: 700; font-size: 16px; margin-bottom: 4px; color: #1c1d1f;">${course.title}</div>
+                <div style="font-size: 14px; color: #6a6f73;">Instructor: ${course.instructor.firstName} ${course.instructor.lastName}</div>
+              </div>
+            </td>
+            <td style="padding: 16px 0; border-bottom: 1px solid #e8eaeb; text-align: right; vertical-align: top; font-size: 15px; color: #1c1d1f;">
+              ₹${price}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Totals -->
+      <div style="margin-bottom: 24px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+           <span style="color: #6a6f73; font-size: 14px;">Total Price</span>
+           <span style="font-size: 14px;">₹${price}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+           <span style="color: #6a6f73; font-size: 14px;">Discounts</span>
+           <span style="font-size: 14px; color: #1e8739;">-₹${Math.round(price * (discount / 100))} (${discount}%)</span>
+        </div>
+        <div style="border-top: 1px solid #d1d7dc; margin-top: 12px; padding-top: 12px; display: flex; justify-content: space-between; font-weight: 700; font-size: 18px;">
+           <span>Total Paid</span>
+           <span>₹${total}</span>
         </div>
       </div>
-      <div style="text-align: center; margin-top: 40px;">
-        <a href="http://localhost:5173/dashboard" style="background-color: #4f46e5; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 16px; display: inline-block;">Start Learning Now</a>
+
+      <!-- Payment Method -->
+      <div style="background: #f7f9fa; padding: 16px; border-radius: 4px; margin-bottom: 24px; font-size: 14px; color: #2d2f31;">
+        <div style="font-weight: 700; margin-bottom: 8px;">Payment Details:</div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <span style="color: #6a6f73;">Payment Method:</span>
+            <span>${paymentInfo?.paymentMethod || 'Card'}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+            <span style="color: #6a6f73;">Transaction ID:</span>
+            <span style="font-family: monospace;">${paymentInfo?.paymentId || 'N/A'}</span>
+        </div>
       </div>
+
+      <!-- CTA -->
+      <a href="http://localhost:5173/dashboard/my-courses" style="display: block; width: 100%; padding: 12px 0; background-color: #a435f0; color: white; text-align: center; text-decoration: none; font-weight: 700; font-size: 16px; border-radius: 4px;">Start Learning</a>
+    
     </div>
-    <div style="background: #f9fafb; padding: 20px; font-size: 12px; color: #9ca3af; border-top: 1px solid #e5e7eb; text-align: center;">
-      Transaction Date: ${new Date().toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' })}<br>
-      © ${new Date().getFullYear()} EduTalks LMS. All rights reserved.
+
+    <!-- Footer -->
+    <div style="background: #f7f9fa; padding: 24px; text-align: center; font-size: 12px; color: #6a6f73; border-top: 1px solid #d1d7dc;">
+       <p style="margin: 0 0 8px;">EduTalks Pvt Ltd, Hyderabad, India.</p>
+       <p style="margin: 0;">Need help? <a href="mailto:support@edutalks.com" style="color: #5624d0; text-decoration: none;">Contact Support</a></p>
     </div>
   </div>
 </div>
@@ -48,7 +95,7 @@ const getReceiptHtml = (user, course, price, total) => `
 // Student only
 exports.enrollCourse = async (req, res) => {
   try {
-    const { courseId } = req.body;
+    const { courseId, paymentInfo } = req.body;
 
     // ✅ 1. Validate input
     if (!courseId) {
@@ -77,7 +124,7 @@ exports.enrollCourse = async (req, res) => {
       course: courseId
     });
 
-    // ✅ 4. Send Email (Restored Logic)
+    // ✅ 4. Send Email
     try {
       const user = await User.findById(req.user.id);
       const course = await Course.findById(courseId).populate("instructor");
@@ -89,14 +136,16 @@ exports.enrollCourse = async (req, res) => {
 
         await sendEmail(
           user.email,
-          `Enrollment Confirmation: ${course.title}`,
-          getReceiptHtml(user, course, price, total)
+          `Confirmation: You've enrolled in ${course.title}!`,
+          getReceiptHtml(user, course, price, discount, total, enrollment._id, paymentInfo)
         );
-        console.log(`📧 Enrollment email sent to ${user.email} for course ${course.title}`);
+        console.log(`📧 SUCCESS: Enrollment email sent to ${user.email} for course "${course.title}"`);
+      } else {
+        console.warn("⚠️ Email skipped: User or Course not found for email generation.");
       }
     } catch (emailErr) {
-      console.error("⚠️ Failed to send enrollment email:", emailErr.message);
-      // Continue - do not fail the request
+      console.error("❌ EMAIL FAILED: Failed to send enrollment email:", emailErr.message);
+      // We do not return error here to ensure enrollment persists
     }
 
     // ✅ 5. Response
@@ -131,6 +180,12 @@ exports.getMyCourses = async (req, res) => {
 
     // Filter out enrollments where the course might have been deleted
     const validEnrollments = enrollments.filter(enrollment => enrollment.course);
+
+    console.log(`[MyCourses Debug] Total Enrollments Found: ${enrollments.length}`);
+    console.log(`[MyCourses Debug] Valid Enrollments (Course Exists): ${validEnrollments.length}`);
+    if (enrollments.length !== validEnrollments.length) {
+      console.warn(`[MyCourses Warning] ${enrollments.length - validEnrollments.length} enrollments invalid (Course may be deleted).`);
+    }
 
     // ✅ Sync completedLessons with ExamResults (Fixes inconsistent state)
     for (const enrollment of validEnrollments) {
@@ -250,6 +305,28 @@ exports.completeLesson = async (req, res) => {
       progress: enrollment.progress
     });
   } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server error"
+    });
+  }
+};
+
+/* ---------------- CHECK ENROLLMENT STATUS ---------------- */
+exports.checkEnrollmentStatus = async (req, res) => {
+  try {
+    const { courseId } = req.params;
+    const enrollment = await Enrollment.findOne({
+      student: req.user.id,
+      course: courseId
+    });
+
+    res.json({
+      success: true,
+      isEnrolled: !!enrollment
+    });
+  } catch (error) {
+    console.error("Check status error:", error);
     res.status(500).json({
       success: false,
       message: "Server error"

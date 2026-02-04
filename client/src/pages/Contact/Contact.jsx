@@ -1,7 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../styles/contact.css";
 
 const Contact = () => {
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        phone: "",
+        topic: "General Query",
+        message: ""
+    });
+    const [loading, setLoading] = useState(false);
+    const [status, setStatus] = useState(null); // success | error
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setStatus(null);
+
+        try {
+            const res = await fetch("http://localhost:5000/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData)
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                setStatus("success");
+                setFormData({ name: "", email: "", phone: "", topic: "General Query", message: "" });
+                alert("Message sent successfully!");
+            } else {
+                setStatus("error");
+                alert(data.message || "Failed to send message.");
+            }
+        } catch (err) {
+            console.error(err);
+            setStatus("error");
+            alert("Something went wrong. Please try again.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div className="contact-page">
 
@@ -49,23 +93,63 @@ const Contact = () => {
                         Fill the form and our team will get back to you within 24 hours.
                     </p>
 
-                    <form className="contact-form">
+                    <form className="contact-form" onSubmit={handleSubmit}>
                         <div className="form-row">
-                            <input type="text" placeholder="Full Name" required />
-                            <input type="email" placeholder="Email Address" required />
+                            <input
+                                type="text"
+                                name="name"
+                                placeholder="Full Name"
+                                value={formData.name}
+                                onChange={handleChange}
+                                required
+                            />
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="Email Address"
+                                value={formData.email}
+                                onChange={handleChange}
+                                required
+                            />
                         </div>
 
-                        <select>
-                            <option>Choose topic</option>
-                            <option>Course Issue</option>
-                            <option>Subscription Issue</option>
-                            <option>Technical Problem</option>
-                            <option>General Query</option>
+                        {/* ADDED PHONE NUMBER FIELD */}
+                        <div className="form-row" style={{ marginTop: "15px" }}>
+                            <input
+                                type="tel"
+                                name="phone"
+                                placeholder="Phone Number"
+                                value={formData.phone}
+                                onChange={handleChange}
+                                style={{ width: "100%" }}
+                                required
+                            />
+                        </div>
+
+                        <select
+                            name="topic"
+                            value={formData.topic}
+                            onChange={handleChange}
+                            style={{ marginTop: "15px" }}
+                        >
+                            <option value="Course Issue">Course Issue</option>
+                            <option value="Subscription Issue">Subscription Issue</option>
+                            <option value="Technical Problem">Technical Problem</option>
+                            <option value="General Query">General Query</option>
                         </select>
 
-                        <textarea rows="6" placeholder="Describe your issue..." required />
+                        <textarea
+                            name="message"
+                            rows="6"
+                            placeholder="Describe your issue..."
+                            value={formData.message}
+                            onChange={handleChange}
+                            required
+                        />
 
-                        <button type="submit">Submit Request</button>
+                        <button type="submit" disabled={loading}>
+                            {loading ? "Sending..." : "Submit Request"}
+                        </button>
                     </form>
                 </div>
 

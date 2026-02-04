@@ -42,10 +42,10 @@ const Footer = () => {
                 <div className="footer-bottom">
                     <p>&copy; {new Date().getFullYear()} EduTalks. All rights reserved.</p>
                     <div className="social-icons">
-                        <a href="#"><i className="fa-brands fa-facebook-f"></i></a>
-                        <a href="#"><i className="fa-brands fa-twitter"></i></a>
-                        <a href="#"><i className="fa-brands fa-linkedin-in"></i></a>
-                        <a href="#"><i className="fa-brands fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/edutalkspvt"><i className="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://in.linkedin.com/company/edutalks-pvt-ltd"><i className="fa-brands fa-twitter"></i></a>
+                        <a href="https://in.linkedin.com/company/edutalks-pvt-ltd"><i className="fa-brands fa-linkedin-in"></i></a>
+                        <a href="https://www.instagram.com/p/DM3XfByh9M8/"><i className="fa-brands fa-instagram"></i></a>
                     </div>
                 </div>
             </div>

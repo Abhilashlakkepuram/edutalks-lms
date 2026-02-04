@@ -38,6 +38,10 @@ app.use("/api/payment", paymentRoutes);
 app.use("/api/exams", examRoutes);
 app.use("/api/plans", planRoutes);
 app.use("/api/subscriptions", subscriptionRoutes);
+app.use("/api/contact", require("./routes/contactRoutes"));
+
+// Force restart
+
 
 
 

@@ -8,7 +8,8 @@ const AdminDashboard = () => {
     const [stats, setStats] = useState(null);
     const [courses, setCourses] = useState([]);
     const [users, setUsers] = useState([]);
-    const [activeView, setActiveView] = useState("courses"); // courses, users, students, instructors
+    const [messages, setMessages] = useState([]); // Support messages
+    const [activeView, setActiveView] = useState("courses"); // courses, users, students, instructors, messages
 
     useEffect(() => {
         const load = async () => {
@@ -19,19 +20,22 @@ const AdminDashboard = () => {
                 const headers = { Authorization: `Bearer ${token}` };
 
                 // Parallel fetching
-                const [statsRes, coursesRes, usersRes] = await Promise.all([
+                const [statsRes, coursesRes, usersRes, messagesRes] = await Promise.all([
                     fetch("http://localhost:5000/api/admin/stats", { headers }),
                     fetch("http://localhost:5000/api/admin/courses", { headers }),
-                    fetch("http://localhost:5000/api/admin/users", { headers })
+                    fetch("http://localhost:5000/api/admin/users", { headers }),
+                    fetch("http://localhost:5000/api/contact", { headers })
                 ]);
 
                 const statsData = await statsRes.json();
                 const coursesData = await coursesRes.json();
                 const usersData = await usersRes.json();
+                const messagesData = await messagesRes.json();
 
                 if (statsData.success) setStats(statsData.stats);
                 if (coursesData.success) setCourses(coursesData.courses);
                 if (usersData.success) setUsers(usersData.users);
+                if (messagesData.success) setMessages(messagesData.contacts);
 
             } catch (err) {
                 console.error("Dashboard Load Error:", err);
@@ -85,6 +89,48 @@ const AdminDashboard = () => {
         });
 
         setCourses(courses.filter((c) => c._id !== id));
+    };
+
+    const updateMessageStatus = async (id, newStatus) => {
+        const token = getToken();
+        try {
+            const res = await fetch(`http://localhost:5000/api/contact/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({ status: newStatus })
+            });
+            const data = await res.json();
+            if (data.success) {
+                setMessages(messages.map(msg => msg._id === id ? { ...msg, status: newStatus } : msg));
+                alert("Status updated!");
+            }
+        } catch (err) {
+            console.error("Update Status Error", err);
+        }
+    };
+
+    const deleteMessage = async (id) => {
+        if (!window.confirm("Are you sure you want to delete this message?")) return;
+
+        const token = getToken();
+        try {
+            const res = await fetch(`http://localhost:5000/api/contact/${id}`, {
+                method: "DELETE",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (res.ok) {
+                setMessages(messages.filter((msg) => msg._id !== id));
+                alert("Message deleted successfully");
+            } else {
+                alert("Failed to delete message");
+            }
+        } catch (err) {
+            console.error("Delete Message Error", err);
+        }
     };
 
     // Filter users based on active view
@@ -147,6 +193,14 @@ const AdminDashboard = () => {
                             <span className="stat-label">Total Courses</span>
                             <span className="stat-value text-pink">{stats.totalCourses}</span>
                         </div>
+                        <div
+                            className={`stat-card active-messages ${activeView === "messages" ? "active-card" : ""}`}
+                            onClick={() => setActiveView("messages")}
+                            style={{ cursor: "pointer" }}
+                        >
+                            <span className="stat-label">Support Msgs</span>
+                            <span className="stat-value text-orange">{messages.length}</span>
+                        </div>
                     </div>
 
                     {/* DYNAMIC TABLE SECTION */}
@@ -156,11 +210,12 @@ const AdminDashboard = () => {
                             {activeView === "users" && "All Users"}
                             {activeView === "students" && "Students Directory"}
                             {activeView === "instructors" && "Instructor Directory"}
+                            {activeView === "messages" && "Support Inquiries"}
                         </h3>
                     </div>
 
                     <div className="table-container">
-                        {activeView === "courses" ? (
+                        {activeView === "courses" && (
                             <table className="data-table">
                                 <thead>
                                     <tr>
@@ -222,7 +277,9 @@ const AdminDashboard = () => {
                                     )}
                                 </tbody>
                             </table>
-                        ) : (
+                        )}
+
+                        {["users", "students", "instructors"].includes(activeView) && (
                             <table className="data-table">
                                 <thead>
                                     <tr>
@@ -256,6 +313,67 @@ const AdminDashboard = () => {
                                                     <span className={`status-text ${user.isVerified ? "status-verified" : "status-pending"}`}>
                                                         {user.isVerified ? "Verified" : "Pending"}
                                                     </span>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    )}
+                                </tbody>
+                            </table>
+                        )}
+
+                        {activeView === "messages" && (
+                            <table className="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>User</th>
+                                        <th>Topic</th>
+                                        <th>Message</th>
+                                        <th>Phone</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {messages.length === 0 ? (
+                                        <tr><td colSpan="7" style={{ textAlign: "center", padding: "30px" }}>No messages found.</td></tr>
+                                    ) : (
+                                        messages.map((msg) => (
+                                            <tr key={msg._id}>
+                                                <td>{new Date(msg.createdAt).toLocaleDateString()}</td>
+                                                <td>
+                                                    <div style={{ fontWeight: "600" }}>{msg.name}</div>
+                                                    <div style={{ fontSize: "12px", color: "#6b7280" }}>{msg.email}</div>
+                                                </td>
+                                                <td><span className="badge-gray">{msg.topic}</span></td>
+                                                <td style={{ maxWidth: "300px" }} title={msg.message}>
+                                                    {msg.message.length > 50 ? msg.message.substring(0, 50) + "..." : msg.message}
+                                                </td>
+                                                <td>{msg.phone}</td>
+                                                <td>
+                                                    <span className={`status-text ${msg.status === "resolved" ? "status-verified" : "status-pending"}`}>
+                                                        {msg.status.toUpperCase()}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <div style={{ display: "flex", gap: "10px" }}>
+                                                        {msg.status !== "resolved" ? (
+                                                            <button
+                                                                className="primary-btn"
+                                                                style={{ padding: "6px 12px", fontSize: "12px" }}
+                                                                onClick={() => updateMessageStatus(msg._id, "resolved")}
+                                                            >
+                                                                Resolve
+                                                            </button>
+                                                        ) : (
+                                                            <button
+                                                                className="delete-btn"
+                                                                onClick={() => deleteMessage(msg._id)}
+                                                            >
+                                                                Delete
+                                                            </button>
+                                                        )}
+                                                    </div>
                                                 </td>
                                             </tr>
                                         ))
